@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — Page Not Found</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <nav class="nav">
+    <div class="nav-logo">SYS/<span>ERR</span> &middot; 0xF404</div>
+    <div class="nav-right">
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        ROUTE NOT FOUND
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode"></button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-left">
+      <div class="big-404">
+        <span class="four-accent">4</span>0<span class="four-accent">4</span>
+      </div>
+      <p class="hero-headline">
+        This page has <strong>drifted out of orbit.</strong><br>
+        The route you followed doesn&rsquo;t exist in this cluster.
+      </p>
+      <p class="hero-sub" id="heroSub" aria-live="polite"></p>
+      <div class="cta-row">
+        <a href="/" class="btn btn-primary">Back to Home</a>
+        <a href="/contact" class="btn btn-ghost">Contact Support</a>
+      </div>
+    </div>
+    <div class="terminal-card">
+      <div class="terminal-bar">
+        <div class="t-dot red"></div>
+        <div class="t-dot yellow"></div>
+        <div class="t-dot green"></div>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line"><span class="t-prompt">$</span><span>curl /requested-path</span></div>
+        <div class="t-line"><span class="t-error">&#x2717; ERR_ROUTE_UNDEFINED</span></div>
+        <div class="t-line"><span class="t-warn">&#x26A0; HTTP 404</span></div>
+        <div class="t-line" style="margin-top:8px"><span class="t-prompt">$</span><span>ping server</span></div>
+        <div class="t-line"><span class="t-ok">&#x2713; Server alive</span></div>
+        <div class="t-line"><span class="t-ok">&#x2713; CDN healthy</span></div>
+        <div class="t-line"><span class="t-warn">&#x26A0; Path not mapped</span></div>
+        <div class="t-line" style="margin-top:8px">
+          <span class="t-prompt">$</span>
+          <span>reroute --home<span class="t-cursor"></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">
+    <span class="divider-label">// KINETIC PLAYGROUND &middot; MATTER.JS ENGINE ACTIVE</span>
+    <div class="divider-line"></div>
+  </div>
+
+  <section class="playground-section">
+    <div class="playground-header">
+      <span class="playground-title">PHYSICS SIM &middot; 2D COLLISION ENGINE</span>
+      <span class="playground-hint">
+        <span class="hint-accent">hover</span> to nudge &middot;
+        <span class="hint-accent">drag</span> to throw &middot;
+        <span class="hint-accent">click</span> to spawn
+      </span>
+    </div>
+    <div class="canvas-well">
+      <canvas id="matter-canvas"></canvas>
+      <button class="spawn-btn" id="spawnBtn">+ SPAWN NODE</button>
+    </div>
+  </section>
+
+  <script src="index.js"></script>
+</body>
+</html>
