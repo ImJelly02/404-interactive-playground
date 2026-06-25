@@ -3,26 +3,26 @@
 html { height: 100%; }
 
 [data-theme="light"] {
-  --bg: #efede3;
-  --ink: #302f2c;
+  --bg: #FCFFF7;
+  --ink: #313E50;
   --ink-soft: #6b6860;
-  --accent: #45CC2D;
-  --accent-glow: rgba(69, 102, 63, 0.30);
-  --accent-dim:  rgba(69, 102, 63, 0.10);
-  --shadow-out:  6px 6px 14px #cbc8be, -6px -6px 14px #f5f2e8;
-  --shadow-in:   inset 4px 4px 10px #cbc8be, inset -4px -4px 10px #f5f2e8;
+  --accent: #D87CAC;
+  --accent-glow: rgba(226, 115, 150, 0.30);
+  --accent-dim:  rgba(226, 115, 150, 0.10);
+  --shadow-out:  6px 6px 14px #cbbebe, -6px -6px 14px #f5e8e8;
+  --shadow-in:   inset 4px 4px 10px #cbbebe, inset -4px -4px 10px #f5e8e8;
   --grid-color:  rgba(48,47,44,0.055);
 }
 
 [data-theme="dark"] {
-  --bg: #1e1d1a;
-  --ink: #efede3;
+  --bg: #313E50;
+  --ink: #FCFFF7;
   --ink-soft: #9a9690;
-  --accent: #c8f135;
-  --accent-glow: rgba(200,241,53,0.38);
-  --accent-dim:  rgba(200,241,53,0.10);
-  --shadow-out:  6px 6px 14px #151412, -6px -6px 14px #272622;
-  --shadow-in:   inset 4px 4px 10px #151412, inset -4px -4px 10px #272622;
+  --accent: #EA9AB2;
+  --accent-glow: rgba(234, 154, 178, 0.38);
+  --accent-dim:  rgba(234, 154, 178, 0.10);
+  --shadow-out:  6px 6px 14px #3A435E, -6px -6px 14px #313E50;
+  --shadow-in:   inset 4px 4px 10px #3A435E, inset -4px -4px 10px #313E50;
   --grid-color:  rgba(239,237,227,0.04);
 }
 
@@ -41,11 +41,10 @@ body {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  z-index: 0;
   background-image:
-    linear-gradient(var(--grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(var(--grid-color) 4px, transparent 4px),
+    linear-gradient(90deg, var(--grid-color) 4px, transparent 4px);
+  background-size: 148px 148px;
 }
 
 /* NAV */
@@ -121,22 +120,20 @@ body {
 /* HERO */
 .hero {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
+  padding: 42px 0;
 }
 
 .big-404 {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(72px, min(14vw, 22vh), 220px);
+  font-size: clamp(112px, min(20vw, 28vh), 384px);
   line-height: 0.85;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.02em;
   user-select: none;
 }
 
@@ -159,13 +156,15 @@ body {
 .hero-headline {
   font-family: 'DM Sans', sans-serif;
   font-size: clamp(14px, 2vw, 20px);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.45;
   margin-top: clamp(6px, 1.8vh, 16px);
   max-width: 650px;
 }
 
-.hero-headline strong { font-weight: 500; }
+.hero-headline strong { 
+  font-weight: 600; 
+}
 
 .t-cursor {
   display: inline-block;
@@ -194,7 +193,7 @@ body {
   border: none;
   cursor: pointer;
   font-family: 'Space Mono', monospace;
-  font-size: clamp(10px, 1.8vw, 14px);
+  font-size: clamp(12px, 2vw, 16px);
   letter-spacing: 0.05em;
   text-decoration: none;
   display: inline-flex;
@@ -218,19 +217,31 @@ body {
   background: var(--bg);
   color: var(--ink-soft);
   box-shadow: var(--shadow-out);
+  font-weight: 500;
 }
 .btn-ghost:hover { color: var(--ink); }
 .btn-ghost:active { box-shadow: var(--shadow-in); }
 
 /* PLAYGROUND */
 .playground-section {
-  position: relative;
-  z-index: 2;
-  padding: 0 48px 24px;
-  display: flex;
-  flex-direction: column;
-  flex: 0 0 clamp(220px, 32vh, 360px);
-  min-height: 0;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.canvas-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: transparent;
+}
+
+#matter-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 /* ENTRANCE ANIMATIONS */
@@ -242,7 +253,7 @@ body {
 .big-404       { opacity: 0; animation: fade-up 0.6s ease 0.05s forwards; }
 .hero-headline { opacity: 0; animation: fade-up 0.6s ease 0.18s forwards; }
 .cta-row       { opacity: 0; animation: fade-up 0.6s ease 0.38s forwards; }
-.playground-section { opacity: 0; animation: fade-up 0.6s ease 0.55s forwards; }
+
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
@@ -255,6 +266,4 @@ body {
   }
 
   body { overflow-y: auto; }
-
-  .playground-section { padding: 0 20px 20px; min-height: 280px; }
 }

@@ -30,7 +30,7 @@
     </div>
     <p class="hero-headline">
       This page has <strong>drifted out of orbit.</strong><br>
-      The route you followed doesn&rsquo;t exist in this cluster.
+      The route you followed does not exist in this cluster.
     </p>
     <div class="cta-row">
       <a href="/" class="btn btn-primary">Back to Home</a>
@@ -38,10 +38,13 @@
     </div>
   </div>
 
-  <section class="playground-section">
-
+  <section class="playground-section" aria-label="404 physics playground">
+    <div class="canvas-container">
+      <canvas id="matter-canvas"></canvas>
+    </div>
   </section>
 
   <script src="index.js"></script>
+  <script src="sketch.js"></script>
 </body>
 </html>
