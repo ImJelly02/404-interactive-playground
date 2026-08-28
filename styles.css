@@ -279,7 +279,7 @@ body {
 /* RESPONSIVE */
 @media (max-width: 767px) {
   .nav { 
-    align-items: flex-start;
+    align-items: center;
     gap: 14px;
     padding: 18px 18px 8px;
   }
@@ -293,7 +293,6 @@ body {
     text-align: center;
     font-size: clamp(10px, 3vw, 14px);
     letter-spacing: 0.08em;
-    flex: 1;
     max-width: calc(100vw - 150px);
     line-height: 1.35;
     overflow-wrap: anywhere;
@@ -323,6 +322,7 @@ body {
   .hero {
     justify-content: flex-start;
     padding: clamp(40px, 12vh, 90px) 18px 0;
+    padding-top: clamp(92px, 20vh, 132px);
     gap: 12px;
   }
 
