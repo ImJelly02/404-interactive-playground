@@ -1,111 +1,87 @@
-// module aliases
-var Engine = Matter.Engine,
-    Render = Matter.Render,
-    Runner = Matter.Runner,
-    Bodies = Matter.Bodies,
-    Composite = Matter.Composite,
-    Composites = Matter.Composites,
-    Mouse = Matter.Mouse,
-    World = Matter.World;
+// This project includes code adapted from P_2_3_3_01 from
+// Generative Gestaltung - Creative Coding im Web.
+// Original authors: Benedikt Gross, Hartmut Bohnacker, Julia Laub,
+// Claudius Lazzeroni, with contributions by Joey Lee and Niels Poldervaart.
+// Original source: https://www.generative-gestaltung.de
+// License: Apache License 2.0
 
-var canvas = document.getElementById('matter-canvas');
+'use strict';
+
 var playground = document.querySelector('.canvas-container');
-var bounds = playground.getBoundingClientRect();
-var width = Math.floor(bounds.width);
-var height = Math.floor(bounds.height);
-var blockColors = ['#C4D6B0', '#477998','#DBB4AD', '#548687', '#B3DEE2'];
 
-function randomBlockColor() {
-    return blockColors[Math.floor(Math.random() * blockColors.length)];
+var x = 0;
+var y = 0;
+var stepSize = 5.0;
+
+var font = 'Georgia';
+var letters = 'The page is somewhere down here. PAGE.JS has stopped responding. Please check the URL and try again. position: absolute lost. This page has left the document flow';
+var fontSizeMin = 3;
+var angleDistortion = 0.0;
+
+var counter = 0;
+
+function setup() {
+  var sketchCanvas = createCanvas(playground.clientWidth, playground.clientHeight);
+  sketchCanvas.parent(playground);
+  sketchCanvas.addClass('playground-canvas');
+  clear();
+  cursor(CROSS);
+
+  x = mouseX;
+  y = mouseY;
+
+  textFont(font);
+  textAlign(LEFT);
+  setDrawingColor();
 }
 
-function blockOptions(options) {
-    return Object.assign({
-        render: {
-            fillStyle: randomBlockColor()
-        }
-    }, options);
+function draw() {
+  if (mouseIsPressed && mouseButton == LEFT) {
+    var d = dist(x, y, mouseX, mouseY);
+    textSize(fontSizeMin + d / 2);
+    var newLetter = letters.charAt(counter);
+    stepSize = textWidth(newLetter);
+
+    if (d > stepSize) {
+      var angle = atan2(mouseY - y, mouseX - x);
+
+      push();
+      translate(x, y);
+      rotate(angle + random(angleDistortion));
+      setDrawingColor();
+      text(newLetter, 0, 0);
+      pop();
+
+      counter++;
+      if (counter >= letters.length) counter = 0;
+
+      x = x + cos(angle) * stepSize;
+      y = y + sin(angle) * stepSize;
+    }
+  }
 }
 
-// create an engine
-var engine = Engine.create();
-var world = engine.world;
-engine.world.gravity.y = 0.5;
-engine.velocityIterations = 6;
+function windowResized() {
+  resizeCanvas(playground.clientWidth, playground.clientHeight);
+}
 
-// create a renderer
-var render = Render.create({
-    canvas: canvas,
-    engine: engine,
-    options: {
-        width: width,
-        height: height,
-        wireframes: false,
-        background: 'transparent'
-    }
-});
+function setDrawingColor() {
+  var ink = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
+  fill(ink || '#181619');
+}
 
-// add bodies
-var rows = 2;
-var cols = 10;
-var recStack = Composites.stack(width / 2 - 300, 50, cols, rows, 0, 0, function(x, y) {
-    return Bodies.rectangle(x, y, 60, 60, blockOptions());
-});
-var circleStack = Composites.stack(500, 50, 5, 3, 10, 10, function(x, y) {
-    return Bodies.circle(x, y, 24, {
-        restitution: 0.85,
-        friction: 0.8,
-        density: 0.08,
-        render: {
-            fillStyle: '#AAA1C8'
-        }
-    });
-});
+function mousePressed() {
+  x = mouseX;
+  y = mouseY;
+}
 
-// add blocks
-World.add(world, [recStack, circleStack,
-    Bodies.rectangle(width / 2, 200, 60, 60, blockOptions({ restitution: 0.9 })),
-    Bodies.rectangle(width / 2 + 200, 50, 60, 60, blockOptions({ restitution: 0.9 })),
-    Bodies.rectangle(width / 2 - 200, 100, 60, 60, blockOptions({ restitution: 0.9 })),
-    Bodies.rectangle(width / 2 - 100, 150, 60, 60, blockOptions({ restitution: 0.9 }))
-]);
+function keyReleased() {
+  if (key == 's' || key == 'S') saveCanvas('404-collision-playground', 'png');
+  if (keyCode == DELETE || keyCode == BACKSPACE) clear();
+}
 
-// add ground
-var ground = Bodies.rectangle(width / 2, height, width, 20, {
-    isStatic: true,
-    render: {
-        fillStyle: '#5C6672'
-    }
-});
-
-// add all of the bodies to the world
-Composite.add(engine.world, [ground]);
-
-// add mouse control
-var mouse = Mouse.create(render.canvas);
-var mouseConstraint = Matter.MouseConstraint.create(engine, {
-    mouse: mouse,
-    constraint: {
-        stiffness: 0.9,
-        render: {
-            visible: false
-        }
-    }
-});
-
-Composite.add(world, mouseConstraint);
-
-// keep the mouse in sync with rendering
-render.mouse = mouse;
-
-// run the renderer
-Render.run(render);
-
-// create runner
-var runner = Runner.create();
-
-// run the engine
-Runner.run(runner, engine);
-
-console.log('Engine:', engine);
-console.log('World bodies:', Composite.allBodies(world).length);
+function keyPressed() {
+  // angleDistortion controls arrow keys up/down
+  if (keyCode == UP_ARROW) angleDistortion += 0.1;
+  if (keyCode == DOWN_ARROW) angleDistortion -= 0.1;
+}

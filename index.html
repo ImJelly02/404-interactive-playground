@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — Page Not Found</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+  <title>Page Not Found</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tomorrow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
 </head>
 <body>
 
@@ -28,20 +29,18 @@
     <div class="big-404">
       <span class="four-accent">4</span>0<span class="four-accent">4</span>
     </div>
-    <p class="hero-headline">
+    <p class="hero-headline prevent-select">
       This page has <strong>drifted out of orbit.</strong><br>
       The route you followed does not exist in this cluster.
     </p>
     <div class="cta-row">
-      <a href="/" class="btn btn-primary">Back to Home</a>
-      <a href="/contact" class="btn btn-ghost">Contact Support</a>
+      <a href="/" class="btn btn-primary prevent-select">Back to Home</a>
+      <a href="/" class="btn btn-ghost prevent-select">Contact Support</a>
     </div>
   </div>
 
-  <section class="playground-section" aria-label="404 physics playground">
-    <div class="canvas-container">
-      <canvas id="matter-canvas"></canvas>
-    </div>
+  <section class="playground-section" aria-label="404 drawing playground">
+    <div class="canvas-container"></div>
   </section>
 
   <script src="index.js"></script>

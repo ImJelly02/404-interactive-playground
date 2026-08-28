@@ -19,6 +19,7 @@
   const cursor = document.createElement('span');
   let ti = 0;
 
+  // add typewriter effect
   cursor.className = 't-cursor';
   heroSub.appendChild(textNode);
   heroSub.appendChild(cursor);
@@ -47,3 +48,4 @@
 
   setTimeout(type, 900);
 })();
+
