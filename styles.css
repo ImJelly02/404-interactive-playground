@@ -34,7 +34,8 @@ html { height: 100%; }
 }
 
 body {
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -74,6 +75,7 @@ body {
   letter-spacing: 0.15em;
   color: var(--ink-soft);
   text-transform: uppercase;
+  min-width: 0;
 }
 
 .nav-right {
@@ -137,6 +139,7 @@ body {
   align-items: center;
   text-align: center;
   padding: 64px 0;
+  min-height: 0;
 }
 
 .big-404 {
@@ -171,6 +174,7 @@ body {
   line-height: 1.45;
   margin-top: clamp(6px, 1.8vh, 16px);
   max-width: 650px;
+  padding: 0 20px;
 }
 
 .hero-headline strong { 
@@ -274,13 +278,115 @@ body {
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  .nav { padding: 16px 20px; }
-
-  .hero {
-    padding: 0 20px 0;
-    gap: 16px;
-    flex: 1;
+  .nav { 
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 18px 8px;
   }
 
-  body { overflow-y: auto; }
+  .nav-logo {
+    flex: 1;
+    max-width: calc(100vw - 150px);
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .nav-right {
+    gap: 10px;
+  }
+
+  .status-pill {
+    padding: 7px 10px;
+    font-size: 9px;
+    white-space: nowrap;
+  }
+
+  .theme-toggle {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+  }
+
+  .theme-toggle svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .hero {
+    justify-content: flex-start;
+    padding: clamp(40px, 12vh, 90px) 18px 0;
+    gap: 12px;
+  }
+
+  .big-404 {
+    font-size: clamp(92px, 34vw, 152px);
+    line-height: 0.9;
+  }
+
+  .four-accent {
+    text-shadow:
+      -8px 0 10px var(--accent-glow),
+      0 0 12px var(--accent-dim);
+  }
+
+  .hero-headline {
+    max-width: 340px;
+    padding: 0;
+    font-size: clamp(14px, 4vw, 17px);
+  }
+
+  .cta-row {
+    width: 100%;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .btn {
+    justify-content: center;
+    min-width: min(100%, 220px);
+    padding: 11px 16px;
+    border-radius: 10px;
+    font-size: 12px;
+  }
+
+  body {
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 430px) {
+  .nav {
+    padding: 16px 14px 6px;
+  }
+
+  .nav-logo {
+    max-width: calc(100vw - 116px);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  .status-pill {
+    display: none;
+  }
+
+  .hero {
+    padding-top: clamp(46px, 13vh, 78px);
+  }
+
+  .big-404 {
+    font-size: clamp(82px, 36vw, 132px);
+  }
+
+  .hero-headline {
+    max-width: 300px;
+  }
+
+  .cta-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn {
+    width: min(100%, 230px);
+  }
 }

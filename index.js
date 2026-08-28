@@ -77,7 +77,7 @@
   let constraints = [];
   let tornConstraints = [];
 
-  const gridSize = 96;
+  let gridSize = getGridSize();
   const gridThickness = 4;
   const particleRadius = 3;
   const influenceRadius = 140;
@@ -98,11 +98,18 @@
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
     ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    gridSize = getGridSize();
     buildCloth();
   }
 
   function getGridColor() {
     return getComputedStyle(document.documentElement).getPropertyValue('--grid-color').trim() || 'rgba(28,69,190,0.05)';
+  }
+
+  function getGridSize() {
+    if (window.innerWidth <= 430) return 64;
+    if (window.innerWidth <= 768) return 72;
+    return 96;
   }
 
   function buildCloth() {
