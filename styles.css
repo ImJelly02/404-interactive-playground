@@ -287,7 +287,7 @@ body {
 
   .nav-logo {
     position: absolute;
-    top: clamp(78px, 10vh, 120px);
+    top: clamp(96px, 16vh, 124px);
     left: 50%;
     z-index: 10;
     width: calc(100vw - 36px);
@@ -308,7 +308,7 @@ body {
 
   .status-pill {
     padding: 8px 12px;
-    font-size: clamp(8px, 2vw, 12px);
+    font-size: clamp(10px, 2vw, 14px);
     white-space: nowrap;
   }
 
@@ -325,7 +325,7 @@ body {
 
   .hero {
     justify-content: flex-start;
-    padding: clamp(48px, 10vh, 72px) 18px 0;
+    padding: clamp(72px, 10vh, 120px) 18px 0;
     gap: 12px;
   }
 
