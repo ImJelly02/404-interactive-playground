@@ -277,7 +277,7 @@ body {
 
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .nav { 
     align-items: flex-start;
     gap: 14px;
@@ -285,6 +285,14 @@ body {
   }
 
   .nav-logo {
+    position: absolute;
+    top: clamp(72px, 14vh, 104px);
+    left: 50%;
+    z-index: 10;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: clamp(10px, 3vw, 14px);
+    letter-spacing: 0.08em;
     flex: 1;
     max-width: calc(100vw - 150px);
     line-height: 1.35;
@@ -297,19 +305,19 @@ body {
 
   .status-pill {
     padding: 7px 10px;
-    font-size: 9px;
+    font-size: clamp(10px, 2vw, 12px);
     white-space: nowrap;
   }
 
   .theme-toggle {
-    width: 38px;
-    height: 38px;
-    flex: 0 0 38px;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 48px;
   }
 
   .theme-toggle svg {
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
   }
 
   .hero {
@@ -343,9 +351,9 @@ body {
 
   .btn {
     justify-content: center;
-    min-width: min(100%, 220px);
+    min-width: min(100%, 160px);
     padding: 11px 16px;
-    border-radius: 10px;
+    border-radius: 24px;
     font-size: 12px;
   }
 
@@ -354,47 +362,3 @@ body {
   }
 }
 
-@media (max-width: 430px) {
-  .nav {
-    padding: 16px 14px 6px;
-    justify-content: flex-end;
-  }
-
-  .nav-logo {
-    position: absolute;
-    top: clamp(72px, 14vh, 104px);
-    left: 50%;
-    z-index: 4;
-    width: calc(100vw - 32px);
-    max-width: 300px;
-    transform: translateX(-50%);
-    text-align: center;
-    font-size: 10px;
-    letter-spacing: 0.08em;
-  }
-
-  .status-pill {
-    display: none;
-  }
-
-  .hero {
-    padding-top: clamp(92px, 20vh, 132px);
-  }
-
-  .big-404 {
-    font-size: clamp(82px, 36vw, 132px);
-  }
-
-  .hero-headline {
-    max-width: 300px;
-  }
-
-  .cta-row {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .btn {
-    width: min(100%, 230px);
-  }
-}
