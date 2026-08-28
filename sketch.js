@@ -101,7 +101,7 @@ function mousePressed() {
 }
 
 function keyReleased() {
-  if (key == 's' || key == 'S') saveCanvas('404-collision-playground', 'png');
+  if (key == 's' || key == 'S') saveCanvas('404-interactive-playground', 'png');
   if (keyCode == DELETE || keyCode == BACKSPACE) {
     drawnLetters = [];
     clear();
