@@ -214,7 +214,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.2s;
+  transition: box-shadow 0.2s, color 0.2s, transform 0.2s;
 }
 
 .btn-primary {
@@ -280,31 +280,34 @@ body {
 @media (max-width: 767px) {
   .nav { 
     align-items: flex-start;
+    justify-content: center;
     gap: 14px;
     padding: 18px 18px 8px;
   }
 
   .nav-logo {
     position: absolute;
-    top: clamp(72px, 14vh, 104px);
+    top: clamp(76px, 13vh, 100px);
     left: 50%;
     z-index: 10;
+    width: calc(100vw - 36px);
     transform: translateX(-50%);
     text-align: center;
     font-size: clamp(10px, 3vw, 14px);
     letter-spacing: 0.08em;
-    max-width: calc(100vw - 150px);
+    max-width: 360px;
     line-height: 1.35;
     overflow-wrap: anywhere;
   }
 
   .nav-right {
+    justify-content: center;
     align-self: center;
     gap: 6px;
   }
 
   .status-pill {
-    padding: 7px 10px;
+    padding: 16px 10px;
     font-size: clamp(10px, 2vw, 12px);
     white-space: nowrap;
   }
@@ -322,8 +325,7 @@ body {
 
   .hero {
     justify-content: flex-start;
-    padding: clamp(40px, 12vh, 90px) 18px 0;
-    padding-top: clamp(92px, 20vh, 132px);
+    padding: clamp(76px, 14vh, 108px) 18px 0;
     gap: 12px;
   }
 
@@ -362,4 +364,3 @@ body {
     overflow: hidden;
   }
 }
-
