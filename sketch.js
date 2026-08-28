@@ -14,11 +14,12 @@ var y = 0;
 var stepSize = 5.0;
 
 var font = 'Georgia';
-var letters = 'The page is somewhere down here. PAGE.JS has stopped responding. Please check the URL and try again. position: absolute lost. This page has left the document flow';
+var letters = 'The page is somewhere down here. Please check the URL and try again. This page has left the document flow. position: absolute lost.';
 var fontSizeMin = 3;
 var angleDistortion = 0.0;
 
 var counter = 0;
+var drawnLetters = [];
 
 function setup() {
   var sketchCanvas = createCanvas(playground.clientWidth, playground.clientHeight);
@@ -33,6 +34,7 @@ function setup() {
   textFont(font);
   textAlign(LEFT);
   setDrawingColor();
+  window.addEventListener('themechange', redrawLetters);
 }
 
 function draw() {
@@ -44,13 +46,18 @@ function draw() {
 
     if (d > stepSize) {
       var angle = atan2(mouseY - y, mouseX - x);
+      var rotation = angle + random(angleDistortion);
 
-      push();
-      translate(x, y);
-      rotate(angle + random(angleDistortion));
-      setDrawingColor();
-      text(newLetter, 0, 0);
-      pop();
+      drawnLetters.push({
+        letter: newLetter,
+        x: x,
+        y: y,
+        size: fontSizeMin + d / 2,
+        rotation: rotation
+      });
+      redrawLetters();
+
+      if (window.breakGridAt) window.breakGridAt(x, y);
 
       counter++;
       if (counter >= letters.length) counter = 0;
@@ -63,6 +70,7 @@ function draw() {
 
 function windowResized() {
   resizeCanvas(playground.clientWidth, playground.clientHeight);
+  redrawLetters();
 }
 
 function setDrawingColor() {
@@ -70,14 +78,34 @@ function setDrawingColor() {
   fill(ink || '#181619');
 }
 
+function drawStoredLetter(storedLetter) {
+  textSize(storedLetter.size);
+
+  push();
+  translate(storedLetter.x, storedLetter.y);
+  rotate(storedLetter.rotation);
+  text(storedLetter.letter, 0, 0);
+  pop();
+}
+
+function redrawLetters() {
+  clear();
+  setDrawingColor();
+  drawnLetters.forEach(drawStoredLetter);
+}
+
 function mousePressed() {
+  if (window.startGridBreak) window.startGridBreak();
   x = mouseX;
   y = mouseY;
 }
 
 function keyReleased() {
   if (key == 's' || key == 'S') saveCanvas('404-collision-playground', 'png');
-  if (keyCode == DELETE || keyCode == BACKSPACE) clear();
+  if (keyCode == DELETE || keyCode == BACKSPACE) {
+    drawnLetters = [];
+    clear();
+  }
 }
 
 function keyPressed() {
