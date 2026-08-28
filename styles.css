@@ -277,7 +277,7 @@ body {
   .nav { padding: 16px 20px; }
 
   .hero {
-    padding: 12px 20px 0;
+    padding: 0 20px 0;
     gap: 16px;
     flex: 1;
   }
