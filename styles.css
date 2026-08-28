@@ -279,7 +279,7 @@ body {
 /* RESPONSIVE */
 @media (max-width: 767px) {
   .nav { 
-    align-items: center;
+    align-items: flex-start;
     gap: 14px;
     padding: 18px 18px 8px;
   }
@@ -299,7 +299,8 @@ body {
   }
 
   .nav-right {
-    gap: 10px;
+    align-self: center;
+    gap: 6px;
   }
 
   .status-pill {
