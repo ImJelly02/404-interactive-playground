@@ -336,7 +336,7 @@ body {
 
   .status-pill {
     padding: 0.5rem 0.75rem;
-    font-size: clamp(0.5rem, 2vw, 0.75rem);
+    font-size: clamp(0.5rem, 2vw, 0.875rem);
     white-space: nowrap;
   }
 
@@ -352,9 +352,9 @@ body {
   }
 
   .hero {
-    align-content: start;
+    align-content: center;
     padding: clamp(4.5rem, 10vh, 7.5rem) var(--layout-gutter) 0;
-    row-gap: 1.25rem;
+    row-gap: 1rem;
   }
 
   .hero > * {
