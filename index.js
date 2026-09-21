@@ -275,6 +275,12 @@
     lastBreakAt = 0;
   };
 
+  window.resetPlaygroundGrid = () => {
+    startedAt = 0;
+    lastBreakAt = 0;
+    buildCloth();
+  };
+
   window.breakGridAt = breakGridAt;
   window.addEventListener('resize', resizeGrid);
 

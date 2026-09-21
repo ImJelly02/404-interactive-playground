@@ -5,8 +5,7 @@ An interactive 404 error page where drawing with the cursor disturbs and tears a
 ## Controls
 
 - Drag to draw text and interact with the grid.
-- Press `Delete` or `Backspace` to clear the drawing.
-- Use the arrow keys to adjust letter rotation.
+- Press `Delete` or `Backspace` to reset the drawing and restore the grid.
 
 ## Built With
 
