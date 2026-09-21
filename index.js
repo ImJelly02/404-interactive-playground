@@ -283,10 +283,23 @@
   function setupMobileShake(onShake) {
     const isHandheld = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
       (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    const motionEvent = window.DeviceMotionEvent;
-    if (!isHandheld || !window.isSecureContext || !motionEvent) return;
-
+    if (!isHandheld) return;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    // This opening animation does not need sensor access or a first touch.
+    if (!reducedMotion.matches) {
+      setTimeout(function openingWobble() {
+        if (document.hidden) {
+          document.addEventListener('visibilitychange', openingWobble);
+          return;
+        }
+        document.removeEventListener('visibilitychange', openingWobble);
+        if (!reducedMotion.matches) onShake(24);
+      }, 350);
+    }
+
+    const motionEvent = window.DeviceMotionEvent;
+    if (!window.isSecureContext || !motionEvent) return;
+
     let enabled = false;
     let listening = false;
     let requested = false;

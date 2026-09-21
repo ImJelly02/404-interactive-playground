@@ -6,6 +6,7 @@ An interactive 404 error page where drawing with the cursor disturbs and tears a
 
 - Drag to draw text and interact with the grid.
 - Press `Delete` or `Backspace` to reset the drawing and restore the grid.
+- On phones and tablets, the grid wobbles once shortly after opening the page, without needing a touch or sensor permission. This animation respects reduced-motion preferences.
 - On supported phones and tablets, shake the device to wobble the grid without tearing it. Serve the page over HTTPS. If motion permission is required, the browser asks after your first touch on the drawing canvas; allow it to enable shaking. Drawing still works if permission is denied or sensors are unavailable.
 - Shake detection is disabled on desktop browsers and while the page is hidden or reduced motion is preferred.
 
