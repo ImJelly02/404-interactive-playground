@@ -291,11 +291,13 @@
     let listening = false;
     let requested = false;
     let previous = null;
+    let gravity = null;
     let firstPeakAt = null;
     let lastShakeAt = -Infinity;
 
     function resetSamples() {
       previous = null;
+      gravity = null;
       firstPeakAt = null;
     }
 
@@ -315,18 +317,33 @@
       const sample = { x: source.x, y: source.y, z: source.z, time: now, includesGravity };
       const last = previous;
       previous = sample;
-      // Differences remove constant gravity; discard stale or switched sensor data.
+      // Discard stale or switched sensor data before evaluating a new gesture.
       if (!last || now - last.time > 250 || last.includesGravity !== includesGravity) {
         firstPeakAt = null;
+        gravity = { x: sample.x, y: sample.y, z: sample.z };
         return;
       }
-      const change = Math.hypot(sample.x - last.x, sample.y - last.y, sample.z - last.z);
+      let ax = sample.x;
+      let ay = sample.y;
+      let az = sample.z;
+      if (includesGravity) {
+        // Time-based gravity filtering works across different sensor sample rates.
+        const alpha = 1 - Math.exp(-Math.max(0, now - last.time) / 250);
+        gravity.x += alpha * (sample.x - gravity.x);
+        gravity.y += alpha * (sample.y - gravity.y);
+        gravity.z += alpha * (sample.z - gravity.z);
+        ax -= gravity.x;
+        ay -= gravity.y;
+        az -= gravity.z;
+      }
+      // Compare actual acceleration, not tiny differences between rapid samples.
+      const change = Math.hypot(ax, ay, az);
       if (now - lastShakeAt < 700 || change < 12) return;
       if (firstPeakAt === null || now - firstPeakAt > 350) {
         firstPeakAt = now;
         return;
       }
-      // Require two strong changes so a single bump usually does not trigger it.
+      // Require sustained strong motion so a single brief bump does not trigger it.
       if (now - firstPeakAt < 40) return;
       firstPeakAt = null;
       lastShakeAt = now;
