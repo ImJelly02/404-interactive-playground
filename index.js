@@ -53,7 +53,7 @@
 // Matter.js cloth grid effect
 (() => {
   const breakEnable = true;
-  const breakStartDelay = 100;
+  const breakStartDelay = 450;
   const breakInterval = 80;
   const breakCountMin = 2;
   const breakCountMax = 8;
@@ -81,7 +81,8 @@
   const gridThickness = 4;
   const particleRadius = 3;
   const influenceRadius = 140;
-  const impulseStrength = 0.018;
+  const wobbleImpulse = 4.5;
+  const maxWobbleSpeed = 8;
   const clothStiffness = 0.08;
   const clothDamping = 0.08;
 
@@ -208,6 +209,14 @@
     return !constraint.bodyA.isStatic && !constraint.bodyB.isStatic;
   }
 
+  function applyWobbleImpulse(body, dx, dy) {
+    if (body.isStatic) return;
+    const vx = body.velocity.x + dx;
+    const vy = body.velocity.y + dy;
+    const scale = Math.min(1, maxWobbleSpeed / (Math.hypot(vx, vy) || 1));
+    Matter.Body.setVelocity(body, { x: vx * scale, y: vy * scale });
+  }
+
   function disturbCloth(x, y) {
     particles.flat().forEach((body) => {
       if (body.isStatic) return;
@@ -217,11 +226,11 @@
       const distance = Math.sqrt(dx * dx + dy * dy);
       if (distance > influenceRadius) return;
 
-      const force = (1 - distance / influenceRadius) * impulseStrength;
-      Matter.Body.applyForce(body, body.position, {
-        x: (dx / (distance || 1)) * force + (Math.random() - 0.5) * force,
-        y: (dy / (distance || 1)) * force - force * 0.6,
-      });
+      const impulse = (1 - distance / influenceRadius) * wobbleImpulse;
+      applyWobbleImpulse(body,
+        (dx / (distance || 1)) * impulse + (Math.random() - 0.5) * impulse,
+        (dy / (distance || 1)) * impulse - impulse * 0.6
+      );
     });
   }
 
@@ -266,10 +275,7 @@
       for (const body of row) {
         if (body.isStatic) continue;
         // A bounded velocity impulse makes the cloth wobble without tearing it.
-        Matter.Body.setVelocity(body, {
-          x: Math.max(-8, Math.min(8, body.velocity.x + (Math.random() - 0.5) * impulse * 2)),
-          y: Math.max(-8, Math.min(8, body.velocity.y - impulse))
-        });
+        applyWobbleImpulse(body, (Math.random() - 0.5) * impulse * 2, -impulse);
       }
     }
   }
