@@ -126,6 +126,7 @@ function mousePressed() {
 }
 
 function touchStarted(event) {
+  if (!event || !event.changedTouches) return;
   ignoreMouseUntil = performance.now() + 500;
   // Leave the theme toggle and links alone. Track one finger for each stroke.
   if (event.target !== drawingCanvas) return;
@@ -141,6 +142,9 @@ function touchStarted(event) {
 }
 
 function touchMoved(event) {
+  // p5 can route mouse movement here when no mouseDragged callback is defined.
+  // Only real touch events should suppress the mouse drawing path.
+  if (!event || !event.touches) return;
   ignoreMouseUntil = performance.now() + 500;
   if (activeTouchId === null) return;
   var touch = findActiveTouch(event.touches);
@@ -149,6 +153,7 @@ function touchMoved(event) {
 }
 
 function touchEnded(event) {
+  if (!event || !event.changedTouches) return;
   ignoreMouseUntil = performance.now() + 500;
   if (activeTouchId === null) return;
   var touch = findActiveTouch(event.changedTouches);

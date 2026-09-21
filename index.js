@@ -260,6 +260,103 @@
     tearClothAt(x, y);
   }
 
+  function shakeCloth(strength) {
+    const impulse = 2 + Math.min(strength / 12, 3);
+    for (const row of particles) {
+      for (const body of row) {
+        if (body.isStatic) continue;
+        // A bounded velocity impulse makes the cloth wobble without tearing it.
+        Matter.Body.setVelocity(body, {
+          x: Math.max(-8, Math.min(8, body.velocity.x + (Math.random() - 0.5) * impulse * 2)),
+          y: Math.max(-8, Math.min(8, body.velocity.y - impulse))
+        });
+      }
+    }
+  }
+
+  function setupMobileShake(onShake) {
+    const isHandheld = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const motionEvent = window.DeviceMotionEvent;
+    if (!isHandheld || !window.isSecureContext || !motionEvent) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let enabled = false;
+    let listening = false;
+    let requested = false;
+    let previous = null;
+    let firstPeakAt = null;
+    let lastShakeAt = -Infinity;
+
+    function resetSamples() {
+      previous = null;
+      firstPeakAt = null;
+    }
+
+    function handleMotion(event) {
+      if (document.hidden || reducedMotion.matches) { resetSamples(); return; }
+      let source = event.acceleration;
+      let includesGravity = false;
+      if (!source || ![source.x, source.y, source.z].every(Number.isFinite)) {
+        source = event.accelerationIncludingGravity;
+        includesGravity = true;
+      }
+      if (!source || ![source.x, source.y, source.z].every(Number.isFinite)) {
+        resetSamples();
+        return;
+      }
+      const now = performance.now();
+      const sample = { x: source.x, y: source.y, z: source.z, time: now, includesGravity };
+      const last = previous;
+      previous = sample;
+      // Differences remove constant gravity; discard stale or switched sensor data.
+      if (!last || now - last.time > 250 || last.includesGravity !== includesGravity) {
+        firstPeakAt = null;
+        return;
+      }
+      const change = Math.hypot(sample.x - last.x, sample.y - last.y, sample.z - last.z);
+      if (now - lastShakeAt < 700 || change < 12) return;
+      if (firstPeakAt === null || now - firstPeakAt > 350) {
+        firstPeakAt = now;
+        return;
+      }
+      // Require two strong changes so a single bump usually does not trigger it.
+      if (now - firstPeakAt < 40) return;
+      firstPeakAt = null;
+      lastShakeAt = now;
+      onShake(change);
+    }
+
+    function updateListening() {
+      resetSamples();
+      const shouldListen = enabled && !document.hidden && !reducedMotion.matches;
+      if (shouldListen === listening) return;
+      listening = shouldListen;
+      if (listening) window.addEventListener('devicemotion', handleMotion);
+      else window.removeEventListener('devicemotion', handleMotion);
+    }
+
+    if (typeof motionEvent.requestPermission === 'function') {
+      // touchend supplies user activation even when p5 prevents a synthetic click.
+      document.addEventListener('touchend', async function requestMotion(event) {
+        if (requested || !event.isTrusted || reducedMotion.matches ||
+            !event.target.closest?.('.playground-canvas')) return;
+        requested = true;
+        document.removeEventListener('touchend', requestMotion, true);
+        try {
+          enabled = await motionEvent.requestPermission() === 'granted';
+          updateListening();
+        } catch { /* Drawing remains available when permission is unavailable. */ }
+      }, { capture: true, passive: true });
+    } else {
+      enabled = true;
+      updateListening();
+    }
+    document.addEventListener('visibilitychange', updateListening);
+    reducedMotion.addEventListener('change', updateListening);
+    window.addEventListener('orientationchange', resetSamples);
+  }
+
   function draw() {
     Matter.Engine.update(engine, 1000 / 60);
     ctx.clearRect(0, 0, width, height);
@@ -285,5 +382,6 @@
   window.addEventListener('resize', resizeGrid);
 
   resizeGrid();
+  setupMobileShake(shakeCloth);
   draw();
 })();
