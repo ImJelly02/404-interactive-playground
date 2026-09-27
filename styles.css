@@ -243,10 +243,10 @@ body {
   font-weight: 700;
   background: var(--accent);
   color: #fff;
-  box-shadow: -0.5rem -0.125rem 0.75rem var(--accent-glow), var(--shadow-out);
+  box-shadow: -0.25rem -0.125rem 0.75rem var(--accent-glow), var(--shadow-out);
 }
 .btn-primary:hover {
-  box-shadow: 0.125rem 0.5rem 0.75rem var(--accent-glow), var(--shadow-out);
+  box-shadow: 0.125rem 0.25rem 0.5rem var(--accent-glow), var(--shadow-out);
   transform: translateY(-0.0625rem);
 }
 
