@@ -17,8 +17,8 @@ html {
 }
 
 [data-theme="light"] {
-  --bg: #DAD6CA;
-  --ink: #181619;
+  --bg: #f4f6fa;
+  --ink: #0f1f3a;
   --ink-soft: #6b6860;
   --accent: #1C45BE;
   --accent-glow: rgba(28, 69, 190, 0.9);
@@ -30,14 +30,14 @@ html {
 
 [data-theme="dark"] {
   --bg: #181619;
-  --ink: #DAD6CA;
+  --ink: #f4f6fa;
   --ink-soft: #9a9690;
   --accent: #1C45BE;
   --accent-glow: rgba(28, 69, 190, 0.9);
   --accent-dim:  rgba(32, 32, 32, 0.9);
   --shadow-out:  0.375rem 0.375rem 0.75rem #202020, -0.1875rem -0.1875rem 0.5rem #313E50;
   --shadow-in:   inset 0.125rem 0.125rem 0.375rem #202020, inset -0.1875rem -0.1875rem 0.5rem #313E50;
-  --grid-color:  rgba(239,237,227,0.04);
+  --grid-color:  rgba(239,237,227,0.05);
 }
 
 body {
